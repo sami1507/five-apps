@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test on Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run the test suite
+        run: npm test
+
+      - name: Start the server and check it answers
+        run: |
+          node server/index.js &
+          sleep 2
+          curl --fail --silent http://127.0.0.1:3000/api/health
+          curl --fail --silent --output /dev/null http://127.0.0.1:3000/crm/index.html
+          kill %1
+        env:
+          PORT: 3000
+          DATA_DIR: ${{ runner.temp }}/five-apps-data

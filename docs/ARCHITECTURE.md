@@ -76,3 +76,5 @@ These are deliberate limits of a demo, and I would revisit them before a multi-u
 - **Unit tests** for validation (`schema.test.js`), persistence (`store.test.js`) and the calendar format (`calendar.test.js`).
 - **Business-rule tests** (`services.test.js`) that exercise every app's invariants and summaries, plus batch atomicity and rollback.
 - **HTTP tests** (`api.test.js`) that start the real server on a random port with a temporary data directory: initialise, sync, reject an invalid change, restart and confirm the data survived, reset, serve the frontend with its headers, and refuse traversal.
+
+CI runs the suite on Node 20, 22 and 24 and then starts the server to check that it answers.
