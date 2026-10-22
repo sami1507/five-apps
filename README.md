@@ -1,6 +1,5 @@
 # Five business apps: CRM, document assistant, inventory, job tracker and personal finance
 
-[![CI](https://github.com/sami1507/five-apps/actions/workflows/ci.yml/badge.svg)](https://github.com/sami1507/five-apps/actions/workflows/ci.yml)
 ![Node.js 20+](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)
 ![Dependencies](https://img.shields.io/badge/runtime%20dependencies-0-2ea44f)
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
@@ -114,7 +113,7 @@ The suite runs on Node's built-in test runner and covers:
 - every app's business rules and summaries;
 - the HTTP API end to end, on a real port with temporary data: initialisation, syncing, rejected changes, restart persistence, reset, security headers and path-traversal protection.
 
-GitHub Actions runs the suite on Node 20, 22 and 24 for every push and pull request.
+The suite is written for Node.js 20 and newer and has been run on Node 24.
 
 ## Configuration
 
@@ -142,8 +141,7 @@ five-apps/
 │   ├── crm/  inventory/  job-tracker/  finance/  doc-assistant/
 ├── test/                 unit, business-rule and HTTP tests
 ├── scripts/build-pwa.js  regenerates manifests and service workers
-├── docs/                 API, architecture and screenshots
-└── .github/workflows/    continuous integration
+└── docs/                 API, architecture and screenshots
 ```
 
 ## Working on the frontend
