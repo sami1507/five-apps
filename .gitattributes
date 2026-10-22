@@ -1,0 +1,4 @@
+# Store text files with LF line endings, whatever the platform.
+* text=auto eol=lf
+*.png binary
+*.ico binary

@@ -1,0 +1,34 @@
+{
+  "name": "five-apps",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Five complete business web apps with a zero-dependency Node.js backend: CRM, AI document assistant, inventory, job tracker and personal finance.",
+  "license": "MIT",
+  "author": "sami1507",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sami1507/five-apps.git"
+  },
+  "homepage": "https://github.com/sami1507/five-apps#readme",
+  "bugs": {
+    "url": "https://github.com/sami1507/five-apps/issues"
+  },
+  "keywords": [
+    "crm",
+    "inventory",
+    "job-tracker",
+    "personal-finance",
+    "document-assistant",
+    "nodejs",
+    "vanilla-javascript",
+    "demo"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test",
+    "build:pwa": "node scripts/build-pwa.js"
+  }
+}

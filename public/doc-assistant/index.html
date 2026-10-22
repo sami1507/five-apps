@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" data-app="doc-assistant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocPilot · AI document assistant</title>
+  <meta name="description" content="DocPilot: upload documents, read them page by page and ask questions with cited answers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0d9488">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="DocPilot">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/ui.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-docassistant" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="gloss-docassistant" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-docassistant)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-docassistant)"/>
+      <path d="M168 128h132l64 64v196a24 24 0 0 1-24 24H168a24 24 0 0 1-24-24V152a24 24 0 0 1 24-24z" fill="#fff"/>
+      <path d="M300 128l64 64h-40a24 24 0 0 1-24-24z" fill="#fff" fill-opacity=".5"/>
+      <path d="M254 240c6 32 14 40 46 46-32 6-40 14-46 46-6-32-14-40-46-46 32-6 40-14 46-46z" fill="#0f766e"/>
+</svg>
+</span>
+        <div>
+          <div class="brand-name">DocPilot</div>
+          <div class="brand-sub">AI document assistant</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <a class="nav-link" data-nav="dashboard" href="#dashboard"><span data-icon="dashboard"></span>Dashboard</a>
+      <a class="nav-link" data-nav="workspace" href="#workspace"><span data-icon="sparkle"></span>Ask & read</a>
+
+      <div class="nav-label">System</div>
+      <a class="nav-link" data-nav="settings" href="#settings"><span data-icon="settings"></span>Settings</a>
+
+      <div class="sidebar-foot">
+        <div class="storage-box">
+          <strong id="storage-docs">0 documents</strong>
+          <small>Stored privately in this browser</small>
+        </div>
+      </div>
+    </aside>
+
+    <div class="backdrop"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" data-icon="menu" aria-label="Open navigation"></button>
+        <div class="search">
+          <span class="search-ico" data-icon="search"></span>
+          <input class="input" id="global-search" type="search" placeholder="Filter documents by name…" aria-label="Filter documents">
+        </div>
+        <div class="spacer"></div>
+        <button class="btn primary" data-action="upload"><span data-icon="upload"></span><span class="btn-label">Upload</span></button>
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle theme"></button>
+      </header>
+
+      <main class="content">
+
+        <!-- Dashboard -->
+        <section data-view="dashboard">
+          <div class="page-head">
+            <div>
+              <h1>Your documents</h1>
+              <p>Upload reports, contracts or notes. DocPilot reads them and answers questions with citations.</p>
+            </div>
+          </div>
+
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload documents">
+            <span class="dropzone-ico" data-icon="upload"></span>
+            <div>
+              <strong>Drop files here or click to browse</strong>
+              <small>PDF, TXT, MD, CSV or JSON. Files stay in this browser.</small>
+            </div>
+          </div>
+          <input type="file" id="file-input" accept=".pdf,.txt,.md,.markdown,.csv,.json,application/pdf,text/*,application/json" multiple hidden>
+
+          <div class="grid-stats" id="dash-stats"></div>
+
+          <div class="card flush" id="dash-docs"></div>
+        </section>
+
+        <!-- Workspace -->
+        <section data-view="workspace">
+          <div class="page-head">
+            <div>
+              <h1>Ask & read</h1>
+              <p>Read the document on the left, ask questions on the right. Click a citation to jump to its source.</p>
+            </div>
+          </div>
+
+          <div class="workspace">
+            <aside class="card pane docs-pane">
+              <div class="pane-head">
+                <strong>Documents</strong>
+                <button type="button" class="btn sm" data-action="upload"><span data-icon="plus"></span>Add</button>
+              </div>
+              <div id="doc-list" class="doc-list"></div>
+            </aside>
+
+            <div class="card pane viewer-pane">
+              <div id="viewer"></div>
+            </div>
+
+            <div class="card pane chat-pane">
+              <div class="pane-head">
+                <div>
+                  <strong>Document intelligence</strong>
+                  <small class="muted" id="chat-mode"></small>
+                </div>
+                <div class="segmented" id="scope" role="tablist">
+                  <button type="button" data-scope="active" class="on">This doc</button>
+                  <button type="button" data-scope="all">All docs</button>
+                </div>
+              </div>
+              <div class="chat-log" id="chat-log" aria-live="polite"></div>
+              <div class="quick-prompts">
+                <button type="button" data-prompt="summary">Summarize</button>
+                <button type="button" data-prompt="numbers">Dates & numbers</button>
+                <button type="button" data-prompt="conclusions">Conclusions</button>
+              </div>
+              <form class="composer" id="composer">
+                <textarea class="input" id="question" rows="2" placeholder="Ask a question about your documents…" aria-label="Question"></textarea>
+                <button type="submit" class="btn primary send-btn"><span data-icon="send"></span><span class="btn-label">Ask</span></button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section data-view="settings">
+          <div class="page-head">
+            <div>
+              <h1>Settings</h1>
+              <p>How DocPilot answers, and your stored documents.</p>
+            </div>
+          </div>
+          <div class="split-even">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Answer engine</h3>
+                  <div class="card-sub">Local search works with no setup. Add a Claude API key for fluent, cited answers.</div>
+                </div>
+              </div>
+              <form id="ai-form" class="stack" autocomplete="off">
+                <label class="field"><span>Claude API key</span><input class="input" id="ai-key" type="password" placeholder="sk-ant-…" autocomplete="off"></label>
+                <label class="field"><span>Model</span>
+                  <select class="input" id="ai-model">
+                    <option value="claude-sonnet-5-5">Claude Sonnet 5.5 (recommended)</option>
+                    <option value="claude-haiku-5-5">Claude Haiku 5.5 (faster, cheaper)</option>
+                  </select>
+                </label>
+                <p class="muted small">The key stays in this browser. Document excerpts are sent to Anthropic only when you ask a question in Claude mode.</p>
+                <div class="row" style="justify-content: flex-end;">
+                  <button type="button" class="btn ghost" id="ai-clear">Remove key</button>
+                  <button type="submit" class="btn primary">Save</button>
+                </div>
+              </form>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Stored documents</h3>
+                  <div class="card-sub">Extracted text and search index, kept in this browser</div>
+                </div>
+              </div>
+              <div class="stack">
+                <div class="mini-row">
+                  <div><strong>Delete everything</strong><small>Removes every document from this browser</small></div>
+                  <button class="btn sm danger" data-action="delete-all"><span data-icon="trash"></span>Delete all</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../shared/ui.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="../shared/register-sw.js"></script>
+  <script src="../shared/ai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

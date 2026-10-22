@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-app="crm">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulse CRM · Sales workspace</title>
+  <meta name="description" content="Pulse CRM: contacts, a drag-and-drop deal pipeline and sales reporting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pulse CRM">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/ui.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-crm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+    <linearGradient id="gloss-crm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-crm)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-crm)"/>
+      <rect x="146" y="162" width="220" height="60" rx="22" fill="#fff"/>
+      <rect x="182" y="246" width="148" height="60" rx="22" fill="#fff" fill-opacity=".85"/>
+      <rect x="218" y="330" width="76" height="60" rx="22" fill="#fff" fill-opacity=".68"/>
+      <circle cx="396" cy="192" r="18" fill="#fff" fill-opacity=".6"/>
+</svg>
+</span>
+        <div>
+          <div class="brand-name">Pulse CRM</div>
+          <div class="brand-sub">Sales workspace</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <a class="nav-link" data-nav="dashboard" href="#dashboard"><span data-icon="dashboard"></span>Dashboard</a>
+      <a class="nav-link" data-nav="contacts" href="#contacts"><span data-icon="users"></span>Contacts</a>
+      <a class="nav-link" data-nav="pipeline" href="#pipeline"><span data-icon="kanban"></span>Pipeline</a>
+      <a class="nav-link" data-nav="reports" href="#reports"><span data-icon="chart"></span>Reports</a>
+
+      <div class="nav-label">System</div>
+      <a class="nav-link" data-nav="settings" href="#settings"><span data-icon="settings"></span>Settings</a>
+
+      <div class="sidebar-foot" id="sidebar-forecast"></div>
+    </aside>
+
+    <div class="backdrop"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" data-icon="menu" aria-label="Open navigation"></button>
+        <div class="search">
+          <span class="search-ico" data-icon="search"></span>
+          <input class="input" id="global-search" type="search" placeholder="Search contacts, companies, deals…" aria-label="Search">
+        </div>
+        <div class="spacer"></div>
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle theme"></button>
+        <div class="user-chip">
+          <span class="avatar" style="--h:250">SL</span>
+          <div class="who">
+            <strong>Sarah Lee</strong>
+            <small>Sales lead</small>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+
+        <!-- Dashboard -->
+        <section data-view="dashboard">
+          <div class="page-head">
+            <div>
+              <h1>Sales overview</h1>
+              <p>Your pipeline, revenue and recent team activity at a glance.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-deals"><span data-icon="download"></span>Export deals</button>
+              <button class="btn primary" data-action="new-deal"><span data-icon="plus"></span>New deal</button>
+            </div>
+          </div>
+
+          <div class="grid-stats" id="dash-stats"></div>
+
+          <div class="split">
+            <div class="card" id="dash-revenue"></div>
+            <div class="card" id="dash-activity"></div>
+          </div>
+
+          <div class="split-even">
+            <div class="card" id="dash-pipeline"></div>
+            <div class="card flush" id="dash-top"></div>
+          </div>
+        </section>
+
+        <!-- Contacts -->
+        <section data-view="contacts">
+          <div class="page-head">
+            <div>
+              <h1>Contacts</h1>
+              <p id="contacts-sub">Everyone you are talking to, in one place.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-contacts"><span data-icon="download"></span>Export CSV</button>
+              <button class="btn primary" data-action="new-contact"><span data-icon="plus"></span>Add contact</button>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="segmented" id="contact-status" role="tablist">
+              <button type="button" data-status="all" class="on">All</button>
+              <button type="button" data-status="Customer">Customers</button>
+              <button type="button" data-status="Prospect">Prospects</button>
+              <button type="button" data-status="Lead">Leads</button>
+            </div>
+            <div class="toolbar-group">
+              <select class="input narrow" id="contact-owner" aria-label="Filter by owner"></select>
+            </div>
+          </div>
+
+          <div id="contacts-table"></div>
+        </section>
+
+        <!-- Pipeline -->
+        <section data-view="pipeline">
+          <div class="page-head">
+            <div>
+              <h1>Deal pipeline</h1>
+              <p>Drag a deal to another stage to update it. Click a card to edit.</p>
+            </div>
+            <div class="page-actions">
+              <span class="badge accent plain" id="pipe-summary"></span>
+              <button class="btn primary" data-action="new-deal"><span data-icon="plus"></span>New deal</button>
+            </div>
+          </div>
+          <div class="board" id="board"></div>
+        </section>
+
+        <!-- Reports -->
+        <section data-view="reports">
+          <div class="page-head">
+            <div>
+              <h1>Reports</h1>
+              <p>Revenue trends, funnel health and team performance.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-deals"><span data-icon="download"></span>Export deals CSV</button>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="card" id="rep-monthly"></div>
+            <div class="card" id="rep-funnel"></div>
+          </div>
+
+          <div class="card flush" id="rep-team"></div>
+        </section>
+
+        <!-- Settings -->
+        <section data-view="settings">
+          <div class="page-head">
+            <div>
+              <h1>Settings</h1>
+              <p>Team, data and workspace preferences.</p>
+            </div>
+          </div>
+
+          <div class="split-even">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Team</h3>
+                  <div class="card-sub">Deal owners and their current load</div>
+                </div>
+              </div>
+              <div id="settings-team"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Data</h3>
+                  <div class="card-sub">Stored locally in this browser</div>
+                </div>
+              </div>
+              <div class="stack">
+                <div class="mini-row">
+                  <div><strong>Export contacts</strong><small>Download all contacts as CSV</small></div>
+                  <button class="btn sm" data-action="export-contacts"><span data-icon="download"></span>CSV</button>
+                </div>
+                <div class="mini-row">
+                  <div><strong>Export deals</strong><small>Download the full pipeline as CSV</small></div>
+                  <button class="btn sm" data-action="export-deals"><span data-icon="download"></span>CSV</button>
+                </div>
+                <div class="mini-row">
+                  <div><strong>Restore demo data</strong><small>Replaces everything with the sample workspace</small></div>
+                  <button class="btn sm danger" data-action="reset-demo"><span data-icon="refresh"></span>Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../shared/ui.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="../shared/register-sw.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

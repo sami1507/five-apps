@@ -1,0 +1,13 @@
+# Runtime data written by the server (created on first run)
+data/
+*.tmp
+
+# Dependencies (there are none today, but this keeps the repo clean if that changes)
+node_modules/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

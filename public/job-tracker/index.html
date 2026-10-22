@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" data-app="job-tracker">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hireboard · Job application tracker</title>
+  <meta name="description" content="Hireboard: a Kanban board for job applications, interviews, follow-ups, reminders and calendar sync.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hireboard">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/ui.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-jobtracker" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="gloss-jobtracker" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-jobtracker)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-jobtracker)"/>
+      <rect x="136" y="150" width="88" height="214" rx="22" fill="#fff" fill-opacity=".55"/>
+      <rect x="212" y="150" width="88" height="214" rx="22" fill="#fff"/>
+      <rect x="288" y="150" width="88" height="214" rx="22" fill="#fff" fill-opacity=".55"/>
+      <rect x="148" y="176" width="66" height="42" rx="12" fill="#6d28d9"/>
+      <rect x="224" y="176" width="66" height="42" rx="12" fill="#8b5cf6"/>
+      <rect x="224" y="232" width="66" height="42" rx="12" fill="#8b5cf6"/>
+      <rect x="300" y="176" width="66" height="42" rx="12" fill="#6d28d9"/>
+</svg>
+</span>
+        <div>
+          <div class="brand-name">Hireboard</div>
+          <div class="brand-sub">Job application tracker</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Tracker</div>
+      <a class="nav-link" data-nav="board" href="#board"><span data-icon="kanban"></span>Board</a>
+      <a class="nav-link" data-nav="list" href="#list"><span data-icon="list"></span>All applications</a>
+      <a class="nav-link" data-nav="insights" href="#insights"><span data-icon="chart"></span>Insights</a>
+
+      <div class="nav-label">System</div>
+      <a class="nav-link" data-nav="settings" href="#settings"><span data-icon="settings"></span>Settings</a>
+
+      <div class="sidebar-foot" id="sidebar-due"></div>
+    </aside>
+
+    <div class="backdrop"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" data-icon="menu" aria-label="Open navigation"></button>
+        <div class="search">
+          <span class="search-ico" data-icon="search"></span>
+          <input class="input" id="global-search" type="search" placeholder="Search company, role, contact…" aria-label="Search applications">
+        </div>
+        <div class="spacer"></div>
+        <button class="btn primary" data-action="new-job"><span data-icon="plus"></span><span class="btn-label">Add application</span></button>
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle theme"></button>
+      </header>
+
+      <main class="content">
+
+        <!-- Board -->
+        <section data-view="board">
+          <div class="page-head">
+            <div>
+              <h1>Applications</h1>
+              <p id="board-sub"></p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-csv"><span data-icon="download"></span>Export CSV</button>
+            </div>
+          </div>
+
+          <div class="kpi-strip" id="board-kpis"></div>
+
+          <div class="due-banner" id="due-banner" hidden></div>
+
+          <div class="toolbar">
+            <div class="segmented" id="board-filter" role="tablist">
+              <button type="button" data-filter="all" class="on">All</button>
+              <button type="button" data-filter="due">Follow-ups due</button>
+              <button type="button" data-filter="interviews">Upcoming interviews</button>
+            </div>
+            <div class="toolbar-group">
+              <select class="input narrow" id="company-filter" aria-label="Filter by company"></select>
+              <select class="input narrow" id="sort-by" aria-label="Sort applications">
+                <option value="updated">Recently updated</option>
+                <option value="company">Company A–Z</option>
+                <option value="followup">Next follow-up</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="board" id="board"></div>
+          <p class="hint-line"><span data-icon="sparkle"></span>Drag a card to another column to change its status. Press <kbd>N</kbd> to add an application.</p>
+        </section>
+
+        <!-- List -->
+        <section data-view="list">
+          <div class="page-head">
+            <div>
+              <h1>All applications</h1>
+              <p id="list-sub"></p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-csv"><span data-icon="download"></span>Export CSV</button>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="segmented" id="list-filter" role="tablist">
+              <button type="button" data-filter="all" class="on">All</button>
+              <button type="button" data-filter="new">New</button>
+              <button type="button" data-filter="applied">Applied</button>
+              <button type="button" data-filter="interview">Interview</button>
+              <button type="button" data-filter="accepted">Accepted</button>
+              <button type="button" data-filter="archived">Archived</button>
+            </div>
+            <div class="toolbar-group">
+              <select class="input narrow" id="list-source" aria-label="Filter by source"></select>
+            </div>
+          </div>
+
+          <div id="list-table"></div>
+        </section>
+
+        <!-- Insights -->
+        <section data-view="insights">
+          <div class="page-head">
+            <div>
+              <h1>Insights</h1>
+              <p>How your search is going, where it stalls, and what needs attention next.</p>
+            </div>
+          </div>
+
+          <div class="grid-stats" id="ins-stats"></div>
+
+          <div class="split">
+            <div class="card" id="ins-weekly"></div>
+            <div class="card" id="ins-funnel"></div>
+          </div>
+
+          <div class="card flush" id="ins-sources"></div>
+
+          <div class="split-even">
+            <div class="card" id="ins-followups"></div>
+            <div class="card" id="ins-interviews"></div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section data-view="settings">
+          <div class="page-head">
+            <div>
+              <h1>Settings</h1>
+              <p>Reminders, calendar sync, backups and sample data.</p>
+            </div>
+          </div>
+
+          <div class="split-even">
+            <div class="card" id="set-reminders"></div>
+            <div class="card" id="set-calendar"></div>
+            <div class="card" id="set-backup"></div>
+            <div class="card" id="set-reset"></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+
+  <script src="../shared/ui.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="../shared/register-sw.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

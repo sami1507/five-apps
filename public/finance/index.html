@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-app="finance">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ledgerly · Personal finance dashboard</title>
+  <meta name="description" content="Ledgerly: track income and expenses, accounts, budgets and spending insights.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#6d28d9">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Ledgerly">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="../shared/ui.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-finance" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="gloss-finance" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-finance)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-finance)"/>
+      <rect x="136" y="296" width="62" height="68" rx="16" fill="#fff" fill-opacity=".55"/>
+      <rect x="226" y="246" width="62" height="118" rx="16" fill="#fff" fill-opacity=".8"/>
+      <rect x="316" y="192" width="62" height="172" rx="16" fill="#fff"/>
+      <circle cx="394" cy="144" r="34" fill="#fff"/>
+      <circle cx="394" cy="144" r="19" fill="none" stroke="#4c1d95" stroke-width="8"/>
+</svg>
+</span>
+        <div>
+          <div class="brand-name">Ledgerly</div>
+          <div class="brand-sub">Personal finance</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Money</div>
+      <a class="nav-link" data-nav="dashboard" href="#dashboard"><span data-icon="dashboard"></span>Dashboard</a>
+      <a class="nav-link" data-nav="transactions" href="#transactions"><span data-icon="list"></span>Transactions</a>
+      <a class="nav-link" data-nav="accounts" href="#accounts"><span data-icon="wallet"></span>Accounts</a>
+      <a class="nav-link" data-nav="budgets" href="#budgets"><span data-icon="target"></span>Budgets</a>
+
+      <div class="nav-label">System</div>
+      <a class="nav-link" data-nav="settings" href="#settings"><span data-icon="settings"></span>Settings</a>
+
+      <div class="sidebar-foot">
+        <div class="upgrade">
+          <strong>Ledgerly Advisor</strong>
+          <small id="advisor-mode">Quick insights run on your device. Add a Claude API key in Settings for open questions.</small>
+        </div>
+      </div>
+    </aside>
+
+    <div class="backdrop"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" data-icon="menu" aria-label="Open navigation"></button>
+        <div class="search">
+          <span class="search-ico" data-icon="search"></span>
+          <input class="input" id="global-search" type="search" placeholder="Search transactions…" aria-label="Search transactions">
+        </div>
+        <div class="spacer"></div>
+        <button class="btn primary" data-action="new-tx"><span data-icon="plus"></span><span class="btn-label">Add transaction</span></button>
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle theme"></button>
+        <div class="user-chip">
+          <span class="avatar" style="--h:265">OA</span>
+          <div class="who">
+            <strong>Oliver Adams</strong>
+            <small>Personal</small>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+
+        <!-- Dashboard -->
+        <section data-view="dashboard">
+          <div class="page-head">
+            <div>
+              <h1>Overview</h1>
+              <p id="dash-sub">Your income, spending and balances.</p>
+            </div>
+            <div class="page-actions">
+              <select class="input narrow" id="period" aria-label="Period">
+                <option value="1">Last 30 days</option>
+                <option value="3">Last 3 months</option>
+                <option value="6" selected>Last 6 months</option>
+                <option value="12">Last 12 months</option>
+                <option value="all">All time</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-stats" id="dash-stats"></div>
+
+          <div class="split">
+            <div class="card" id="dash-flow"></div>
+            <div class="card" id="dash-spend"></div>
+          </div>
+
+          <div class="split">
+            <div class="card flush" id="dash-tx"></div>
+            <div class="card advisor" id="dash-advisor">
+              <div class="card-head">
+                <div>
+                  <h3>Ledgerly Advisor</h3>
+                  <div class="card-sub">Ask about your money</div>
+                </div>
+                <span class="advisor-badge" data-icon="sparkle"></span>
+              </div>
+              <p class="advisor-hello">Hello! Pick a quick question below, or ask anything about your finances.</p>
+              <div class="quick-actions" id="quick-actions"></div>
+              <div class="advisor-output" id="advisor-output" aria-live="polite"></div>
+              <form class="advisor-ask" id="advisor-form">
+                <input class="input" id="advisor-input" placeholder="e.g. Can I afford a €900 trip in March?" aria-label="Ask the advisor">
+                <button type="submit" class="icon-btn" aria-label="Send question" data-icon="send"></button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Transactions -->
+        <section data-view="transactions">
+          <div class="page-head">
+            <div>
+              <h1>Transactions</h1>
+              <p id="tx-sub"></p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-action="export-tx"><span data-icon="download"></span>Export CSV</button>
+              <button class="btn primary" data-action="new-tx"><span data-icon="plus"></span>Add transaction</button>
+            </div>
+          </div>
+          <div class="toolbar">
+            <div class="segmented" id="tx-type" role="tablist">
+              <button type="button" data-type="all" class="on">All</button>
+              <button type="button" data-type="income">Income</button>
+              <button type="button" data-type="expense">Expenses</button>
+            </div>
+            <div class="toolbar-group">
+              <select class="input narrow" id="tx-account" aria-label="Filter by account"></select>
+            </div>
+          </div>
+          <div id="tx-table"></div>
+        </section>
+
+        <!-- Accounts -->
+        <section data-view="accounts">
+          <div class="page-head">
+            <div>
+              <h1>Accounts</h1>
+              <p id="accounts-sub"></p>
+            </div>
+            <div class="page-actions">
+              <button class="btn primary" data-action="new-account"><span data-icon="plus"></span>Add account</button>
+            </div>
+          </div>
+          <div class="grid-stats" id="account-summary"></div>
+          <div class="account-grid" id="account-grid"></div>
+        </section>
+
+        <!-- Budgets -->
+        <section data-view="budgets">
+          <div class="page-head">
+            <div>
+              <h1>Budgets</h1>
+              <p>Monthly spending limits by category, measured against this month.</p>
+            </div>
+          </div>
+          <div class="grid-stats" id="budget-summary"></div>
+          <div class="card" id="budget-list"></div>
+        </section>
+
+        <!-- Settings -->
+        <section data-view="settings">
+          <div class="page-head">
+            <div>
+              <h1>Settings</h1>
+              <p>Advisor connection and data management.</p>
+            </div>
+          </div>
+          <div class="split-even">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Advisor connection</h3>
+                  <div class="card-sub">Optional. Used only for open-ended questions.</div>
+                </div>
+              </div>
+              <form id="ai-form" class="stack" autocomplete="off">
+                <label class="field"><span>Claude API key</span><input class="input" id="ai-key" type="password" placeholder="sk-ant-…" autocomplete="off"></label>
+                <label class="field"><span>Model</span>
+                  <select class="input" id="ai-model">
+                    <option value="claude-sonnet-5-5">Claude Sonnet 5.5 (recommended)</option>
+                    <option value="claude-haiku-5-5">Claude Haiku 5.5 (faster, cheaper)</option>
+                  </select>
+                </label>
+                <p class="muted small">The key is stored only in this browser and sent only to Anthropic when you ask a question.</p>
+                <div class="row" style="justify-content: flex-end;">
+                  <button type="button" class="btn ghost" id="ai-clear">Remove key</button>
+                  <button type="submit" class="btn primary">Save</button>
+                </div>
+              </form>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <h3>Data</h3>
+                  <div class="card-sub">Stored locally in this browser</div>
+                </div>
+              </div>
+              <div class="stack">
+                <div class="mini-row">
+                  <div><strong>Export transactions</strong><small>All transactions as CSV</small></div>
+                  <button class="btn sm" data-action="export-tx"><span data-icon="download"></span>CSV</button>
+                </div>
+                <div class="mini-row">
+                  <div><strong>Restore demo data</strong><small>Replaces accounts, transactions and budgets</small></div>
+                  <button class="btn sm danger" data-action="reset-demo"><span data-icon="refresh"></span>Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../shared/ui.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="../shared/register-sw.js"></script>
+  <script src="../shared/ai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Five apps · Launcher</title>
+  <meta name="description" content="Five complete, browser-based apps: CRM, document assistant, inventory, job tracker and personal finance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/ui.css">
+  <style>
+    .hub { max-width: 1120px; margin: 0 auto; padding: 48px 24px 64px; display: flex; flex-direction: column; gap: 32px; }
+    .hub-head { display: grid; gap: 10px; }
+    .hub-head .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .hub-head h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.03em; }
+    .hub-head p { margin: 0; max-width: 680px; color: var(--muted); font-size: 16px; }
+    .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .app-card {
+      --accent: #4f46e5;
+      display: flex; flex-direction: column; gap: 16px; padding: 22px; border-radius: 20px; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .app-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+    .app-top { display: flex; align-items: center; gap: 14px; }
+    .app-mark { width: 52px; height: 52px; border-radius: 15px; overflow: hidden; flex: none; box-shadow: 0 12px 24px -12px var(--accent); }
+    .app-mark svg { width: 100%; height: 100%; display: block; }
+    .app-card h2 { margin: 0; font-size: 18px; letter-spacing: -0.01em; color: var(--text); }
+    .app-card .tag { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
+    .app-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chips span {
+      font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+      color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .app-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; color: var(--accent); font-weight: 700; font-size: 14px; }
+    .app-foot .ico { width: 16px; height: 16px; }
+    .notes { display: grid; gap: 8px; padding: 18px 22px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); font-size: 13.5px; }
+    .notes strong { color: var(--text); }
+    .notes ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; }
+    @media (max-width: 640px) {
+      .hub { padding: 32px 16px 48px; }
+      .app-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main class="hub">
+    <header class="hub-head">
+      <span class="eyebrow">Five apps · no install needed</span>
+      <h1>Pick an app to open it</h1>
+      <p>Each one runs in your browser with no server and no build step. Your data is saved in the browser you use, so the same app keeps its contents between visits.</p>
+    </header>
+
+    <div class="app-grid">
+      <a class="app-card" href="crm/index.html" style="--accent:#4f46e5">
+        <div class="app-top">
+          <span class="app-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-crm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+    <linearGradient id="gloss-crm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-crm)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-crm)"/>
+      <rect x="146" y="162" width="220" height="60" rx="22" fill="#fff"/>
+      <rect x="182" y="246" width="148" height="60" rx="22" fill="#fff" fill-opacity=".85"/>
+      <rect x="218" y="330" width="76" height="60" rx="22" fill="#fff" fill-opacity=".68"/>
+      <circle cx="396" cy="192" r="18" fill="#fff" fill-opacity=".6"/>
+</svg>
+</span>
+          <div><h2>Pulse CRM</h2><p class="tag">Sales workspace</p></div>
+        </div>
+        <p>Contacts, a drag-and-drop deal pipeline, weighted forecasts and team reporting.</p>
+        <div class="chips"><span>Contacts</span><span>Pipeline board</span><span>Reports</span><span>CSV export</span></div>
+        <div class="app-foot"><span>Open Pulse CRM</span><span data-icon="arrow"></span></div>
+      </a>
+
+      <a class="app-card" href="doc-assistant/index.html" style="--accent:#0d9488">
+        <div class="app-top">
+          <span class="app-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-docassistant" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="gloss-docassistant" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-docassistant)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-docassistant)"/>
+      <path d="M168 128h132l64 64v196a24 24 0 0 1-24 24H168a24 24 0 0 1-24-24V152a24 24 0 0 1 24-24z" fill="#fff"/>
+      <path d="M300 128l64 64h-40a24 24 0 0 1-24-24z" fill="#fff" fill-opacity=".5"/>
+      <path d="M254 240c6 32 14 40 46 46-32 6-40 14-46 46-6-32-14-40-46-46 32-6 40-14 46-46z" fill="#0f766e"/>
+</svg>
+</span>
+          <div><h2>DocPilot</h2><p class="tag">AI document assistant</p></div>
+        </div>
+        <p>Upload PDFs and text files, read them page by page, and ask questions. Every answer links back to its source passage.</p>
+        <div class="chips"><span>PDF &amp; text</span><span>Citations</span><span>Local search</span><span>Optional Claude</span></div>
+        <div class="app-foot"><span>Open DocPilot</span><span data-icon="arrow"></span></div>
+      </a>
+
+      <a class="app-card" href="inventory/index.html" style="--accent:#2563eb">
+        <div class="app-top">
+          <span class="app-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-inventory" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gloss-inventory" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-inventory)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-inventory)"/>
+      <polygon points="256,132 380,196 256,260 132,196" fill="#fff"/>
+      <polygon points="132,196 256,260 256,384 132,320" fill="#fff" fill-opacity=".8"/>
+      <polygon points="380,196 256,260 256,384 380,320" fill="#fff" fill-opacity=".55"/>
+</svg>
+</span>
+          <div><h2>Inventix</h2><p class="tag">Inventory &amp; orders</p></div>
+        </div>
+        <p>Products, warehouse zones and orders where stock moves automatically, with reorder alerts and restocking.</p>
+        <div class="chips"><span>Stock control</span><span>Orders</span><span>Warehouses</span><span>Reorder alerts</span></div>
+        <div class="app-foot"><span>Open Inventix</span><span data-icon="arrow"></span></div>
+      </a>
+
+      <a class="app-card" href="job-tracker/index.html" style="--accent:#7c3aed">
+        <div class="app-top">
+          <span class="app-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-jobtracker" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="gloss-jobtracker" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-jobtracker)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-jobtracker)"/>
+      <rect x="136" y="150" width="88" height="214" rx="22" fill="#fff" fill-opacity=".55"/>
+      <rect x="212" y="150" width="88" height="214" rx="22" fill="#fff"/>
+      <rect x="288" y="150" width="88" height="214" rx="22" fill="#fff" fill-opacity=".55"/>
+      <rect x="148" y="176" width="66" height="42" rx="12" fill="#6d28d9"/>
+      <rect x="224" y="176" width="66" height="42" rx="12" fill="#8b5cf6"/>
+      <rect x="224" y="232" width="66" height="42" rx="12" fill="#8b5cf6"/>
+      <rect x="300" y="176" width="66" height="42" rx="12" fill="#6d28d9"/>
+</svg>
+</span>
+          <div><h2>Hireboard</h2><p class="tag">Job application tracker</p></div>
+        </div>
+        <p>A Kanban board for every application, with an interview log, follow-up reminders and search insights.</p>
+        <div class="chips"><span>Kanban</span><span>Interviews</span><span>Follow-ups</span><span>Backup &amp; restore</span></div>
+        <div class="app-foot"><span>Open Hireboard</span><span data-icon="arrow"></span></div>
+      </a>
+
+      <a class="app-card" href="finance/index.html" style="--accent:#6d28d9">
+        <div class="app-top">
+          <span class="app-mark"><svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile-finance" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="gloss-finance" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#tile-finance)"/>
+  <rect width="512" height="256" rx="120" fill="url(#gloss-finance)"/>
+      <rect x="136" y="296" width="62" height="68" rx="16" fill="#fff" fill-opacity=".55"/>
+      <rect x="226" y="246" width="62" height="118" rx="16" fill="#fff" fill-opacity=".8"/>
+      <rect x="316" y="192" width="62" height="172" rx="16" fill="#fff"/>
+      <circle cx="394" cy="144" r="34" fill="#fff"/>
+      <circle cx="394" cy="144" r="19" fill="none" stroke="#4c1d95" stroke-width="8"/>
+</svg>
+</span>
+          <div><h2>Ledgerly</h2><p class="tag">Personal finance dashboard</p></div>
+        </div>
+        <p>Income, expenses, accounts and budgets, with cash-flow charts and an advisor that explains your numbers.</p>
+        <div class="chips"><span>Cash flow</span><span>Budgets</span><span>Accounts</span><span>Advisor</span></div>
+        <div class="app-foot"><span>Open Ledgerly</span><span data-icon="arrow"></span></div>
+      </a>
+    </div>
+
+    <div class="notes">
+      <strong>Before you start</strong>
+      <ul>
+        <li>Run <code>npm start</code> to save everything on the local server. Without it, each app keeps its data in your browser instead, and the apps still work.</li>
+        <li>Each app starts with sample data. Use <strong>Settings → Restore demo data</strong> to reset it at any time.</li>
+        <li>The Claude options in DocPilot and Ledgerly are optional. Add your own API key in Settings to enable them; without a key both apps still work.</li>
+      </ul>
+    </div>
+  </main>
+
+  <script src="shared/ui.js"></script>
+  <script src="shared/hub.js"></script>
+</body>
+</html>
